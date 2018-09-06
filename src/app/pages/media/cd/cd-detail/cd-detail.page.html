@@ -2,11 +2,27 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>cd-detail</ion-title>
+    <ion-title>Détail de la location</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-card [ngClass]="{'lent': cd.isLent}">
+    <ion-card-header>
+      <ion-card-title>{{ cd.title }}</ion-card-title>
+      <ion-card-subtitle>{{ cd.author }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-segment (ionChange)="toggleLent($event)" [color]="cd.isLent ? 'danger' : 'secondary'">
+        <ion-segment-button [value]="0" [checked]="!cd.isLent">
+          Disponible
+        </ion-segment-button>
+        <ion-segment-button [value]="1" [checked]="cd.isLent">
+          Loué
+        </ion-segment-button>
+      </ion-segment>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

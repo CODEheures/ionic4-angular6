@@ -1,4 +1,4 @@
-export interface Books {
+export interface Book {
   title: string,
   author: string,
   isLent: boolean

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {MediasService} from '../../../../services/medias.service';
+import {ActivatedRoute} from '@angular/router';
+import {Book} from '../../../../interfaces/medias/book';
 
 @Component({
   selector: 'app-books-detail',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BooksDetailPage implements OnInit {
 
-  constructor() { }
+  public book: Book;
+
+  constructor(private mediasService: MediasService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.book = this.mediasService.getBookById(+id)
   }
 
+  toggleLent(event) {
+    this.book.isLent = +event.detail.value === 1
+  }
 }

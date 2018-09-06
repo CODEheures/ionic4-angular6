@@ -1,5 +1,5 @@
 export interface Cd {
   title: string,
-  author: string,
+  artist: string,
   isLent: boolean
 }
