@@ -12,11 +12,10 @@
     <ion-item
       [ngClass]="{'lent': book.isLent}"
       *ngFor="let book of books; let i=index"
-      [detail]="true"
       (click)="onOpenDetail(i)">
-      <ion-icon name="square-outline" slot="start" color="danger" *ngIf="book.isLent"></ion-icon>
-      <ion-icon name="checkbox-outline" slot="start" color="secondary" *ngIf="!book.isLent"></ion-icon>
       <ion-label>{{ book.title }}</ion-label>
+      <ion-icon name="square-outline" slot="end" color="danger" *ngIf="book.isLent"></ion-icon>
+      <ion-icon name="checkbox-outline" slot="end" color="secondary" *ngIf="!book.isLent"></ion-icon>
     </ion-item>
   </ion-list>
 </ion-content>
