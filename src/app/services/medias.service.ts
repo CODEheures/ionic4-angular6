@@ -78,9 +78,11 @@ export class MediasService {
   lentOffAll() {
     this.books.forEach((book) => {
       book.isLent = false
+      book.lentBy = ''
     })
     this.cds.forEach((cd) => {
       cd.isLent = false
+      cd.lentBy = ''
     })
   }
 
