@@ -68,4 +68,13 @@ export class MediasService {
   getCdById(id: number): Cd {
     return this.cds[id]
   }
+
+  lentOffAll() {
+    this.books.forEach((book) => {
+      book.isLent = false
+    })
+    this.cds.forEach((cd) => {
+      cd.isLent = false
+    })
+  }
 }

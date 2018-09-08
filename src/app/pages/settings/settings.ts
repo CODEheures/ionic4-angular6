@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 import {AlertController} from '@ionic/angular';
+import {MediasService} from '../../services/medias.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'page-settings',
@@ -8,12 +10,14 @@ import {AlertController} from '@ionic/angular';
 
 export class SettingsPage {
 
-  constructor(private alertCtrl: AlertController){}
+  constructor(private alertCtrl: AlertController,
+              private mediaService: MediasService,
+              private router: Router) {}
 
-  async onToggleLights() {
+  async onToggleReset() {
     const alert = await this.alertCtrl.create({
-      header: 'Êtes-vous certain(e) de vouloir continuer?',
-      subHeader: 'Cette action allumera ou eteindra toutes les lumières de la maison',
+      header: 'Êtes-vous certain(e) de vouloir réinitialiser?',
+      subHeader: 'Cette action remettra tous les média à l\'état "disponible"',
       buttons: [
         {
           text: 'Annuler',
@@ -21,10 +25,15 @@ export class SettingsPage {
         },
         {
           text: 'Confirmer',
-          handler: () => { console.log('confirmé!')}
+          handler: () => { this.resetAll()}
         }
       ]
     })
     await alert.present()
+  }
+
+  resetAll() {
+    this.mediaService.lentOffAll()
+    this.router.navigate(['/'])
   }
 }
