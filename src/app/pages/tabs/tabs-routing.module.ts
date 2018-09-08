@@ -22,19 +22,9 @@ const routes: Routes = [
         component: BooksListPage,
       },
       {
-        path: 'books/:id',
-        outlet: 'books',
-        component: BooksDetailPage
-      },
-      {
         path: 'cd',
         outlet: 'cd',
         component: CdListPage
-      },
-      {
-        path: 'cd/:id',
-        outlet: 'cd',
-        component: CdDetailPage
       }
     ]
   },

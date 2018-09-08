@@ -13,7 +13,7 @@
       [ngClass]="{'lent': book.isLent}"
       *ngFor="let book of books; let i=index"
       [detail]="true"
-      [href]="'/medias/tabs/(books:books/' + i + ')'">
+      (click)="onOpenDetail(i)">
       <ion-icon name="square-outline" slot="start" color="danger" *ngIf="book.isLent"></ion-icon>
       <ion-icon name="checkbox-outline" slot="start" color="secondary" *ngIf="!book.isLent"></ion-icon>
       <ion-label>{{ book.title }}</ion-label>

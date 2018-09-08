@@ -13,7 +13,7 @@
       [ngClass]="{'lent': cd.isLent}"
       *ngFor="let cd of cds; let i=index"
       [detail]="true"
-      [href]="'/medias/tabs/(cd:cd/' + i + ')'">
+      (click)="onOpenDetail(i)">
       <ion-icon name="square-outline" slot="start" color="danger" *ngIf="cd.isLent"></ion-icon>
       <ion-icon name="checkbox-outline" slot="start" color="secondary" *ngIf="!cd.isLent"></ion-icon>
       <ion-label>{{ cd.title }}</ion-label>
