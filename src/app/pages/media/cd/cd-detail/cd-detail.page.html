@@ -12,7 +12,7 @@
   <ion-card [ngClass]="{'lent': cd.isLent}">
     <ion-card-header>
       <ion-card-title>{{ cd.title }}</ion-card-title>
-      <ion-card-subtitle>{{ cd.author }}</ion-card-subtitle>
+      <ion-card-subtitle>{{ cd.artist }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ion-segment (ionChange)="toggleLent($event)" [color]="cd.isLent ? 'danger' : 'secondary'">

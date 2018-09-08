@@ -10,3 +10,38 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+@import "./theme/variables.scss";
+ion-tab {
+  ion-content {
+    background-image: url("./assets/images/b.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    // opacity: 0.8;
+
+    ion-card {
+      background: white !important;
+
+      &.lent {
+        border: 2px solid var(--ion-color-danger);
+      }
+
+      &:not(.lent) {
+        border: 2px solid var(--ion-color-secondary);
+      }
+    }
+  }
+}
+
+app-books-list, app-cd-list {
+  ion-list {
+    background: none;
+
+    ion-item {
+      color: white;
+
+      &.lent {
+        background-color: rgba(var(--ion-color-danger-rgb), 0.25);
+      }
+    }
+  }
+}

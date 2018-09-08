@@ -9,7 +9,11 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let cd of cds; let i=index" [detail]="true" [href]="'/medias/tabs/(cd:cd/' + i + ')'">
+    <ion-item
+      [ngClass]="{'lent': cd.isLent}"
+      *ngFor="let cd of cds; let i=index"
+      [detail]="true"
+      [href]="'/medias/tabs/(cd:cd/' + i + ')'">
       <ion-icon name="square-outline" slot="start" color="danger" *ngIf="cd.isLent"></ion-icon>
       <ion-icon name="checkbox-outline" slot="start" color="secondary" *ngIf="!cd.isLent"></ion-icon>
       <ion-label>{{ cd.title }}</ion-label>
