@@ -13,7 +13,10 @@
       [ngClass]="{'lent': book.isLent}"
       *ngFor="let book of books; let i=index"
       (click)="onOpenDetail(i)">
-      <ion-label>{{ book.title }}</ion-label>
+      <ion-label text-wrap>
+        <h3>{{ book.title }}</h3>
+        <p *ngIf="book.lentBy && book.lentBy.length > 0">Loué par {{ book.lentBy }}</p>
+      </ion-label>
       <ion-icon name="square-outline" slot="end" color="danger" *ngIf="book.isLent"></ion-icon>
       <ion-icon name="checkbox-outline" slot="end" color="secondary" *ngIf="!book.isLent"></ion-icon>
     </ion-item>

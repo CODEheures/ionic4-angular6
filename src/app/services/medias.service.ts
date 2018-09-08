@@ -12,17 +12,20 @@ export class MediasService {
     {
       title: 'moby dick',
       author: 'herman melville',
-      isLent: true
+      isLent: true,
+      lentBy: 'Mickael For'
     },
     {
       title: 'Fahrenheit 451',
       author: 'Ray Bradbury',
-      isLent: false
+      isLent: false,
+      lentBy: ''
     },
     {
       title: 'Le Meilleur des mondes',
       author: 'Aldous Huxley',
-      isLent: true
+      isLent: true,
+      lentBy: 'Pit Norris'
     }
   ]
 
@@ -31,17 +34,20 @@ export class MediasService {
     {
       title: 'Shine on you crazy diamond',
       artist: 'pink floyd',
-      isLent: true
+      isLent: false,
+      lentBy: ''
     },
     {
       title: 'En passant',
       artist: 'Jean-Jacques Goldman',
-      isLent: true
+      isLent: true,
+      lentBy: 'Tina Handy'
     },
     {
       title: 'Thunderstuck',
       artist: 'AC/DC',
-      isLent: false
+      isLent: false,
+      lentBy: ''
     }
   ]
 
@@ -62,11 +68,11 @@ export class MediasService {
   }
 
   getBookById(id: number): Book {
-    return this.books[id]
+    return Object.assign({}, this.books[id])
   }
 
   getCdById(id: number): Cd {
-    return this.cds[id]
+    return Object.assign({}, this.cds[id])
   }
 
   lentOffAll() {
@@ -76,5 +82,21 @@ export class MediasService {
     this.cds.forEach((cd) => {
       cd.isLent = false
     })
+  }
+
+  saveBook(index: number, book: Book) {
+    this.books[index] = book
+    if (!book.isLent) {
+      this.books[index].lentBy = ''
+    }
+    this.emitBooks()
+  }
+
+  saveCd(index: number, cd: Cd) {
+    this.cds[index] = cd
+    if (!cd.isLent) {
+      this.cds[index].lentBy = ''
+    }
+    this.emitCds()
   }
 }

@@ -23,5 +23,23 @@
         </ion-segment-button>
       </ion-segment>
     </ion-card-content>
+    <form [formGroup]="cdFormGroup" (ngSubmit)="saveMe()">
+      <ion-card-content *ngIf="cd.isLent">
+        <ion-list>
+          <ion-item-divider>Informations</ion-item-divider>
+          <ion-item>
+            <ion-label position="floating">Loué par</ion-label>
+            <ion-input formControlName="lentBy" [(ngModel)]="cd.lentBy"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+      <ion-card-content text-end>
+        <ion-button
+          type="submit"
+          slot="end"
+          [disabled]="cd.isLent && cdFormGroup.invalid"
+        >Mettre à jour</ion-button>
+      </ion-card-content>
+    </form>
   </ion-card>
 </ion-content>

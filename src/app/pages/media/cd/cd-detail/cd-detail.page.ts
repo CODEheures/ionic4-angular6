@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MediasService} from '../../../../services/medias.service';
 import {Cd} from '../../../../interfaces/medias/cd';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-cd-detail',
@@ -13,12 +14,19 @@ export class CdDetailPage implements OnInit {
   @Input() id: number;
 
   public cd: Cd;
+  public cdFormGroup: FormGroup;
 
   constructor(private mediasService: MediasService,
-              private modalCtrl: ModalController) { }
+              private modalCtrl: ModalController,
+              private formBuilder: FormBuilder,
+              private alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.cd = this.mediasService.getCdById(this.id)
+
+    this.cdFormGroup = this.formBuilder.group({
+      lentBy: [this.cd.lentBy, Validators.required]
+    })
   }
 
   toggleLent(event) {
@@ -29,4 +37,24 @@ export class CdDetailPage implements OnInit {
     this.modalCtrl.dismiss()
   }
 
+  async saveMe() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmation',
+      message: 'Enregistrer le nouvel état de ce CD?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Ok',
+          handler: () => {
+            this.mediasService.saveCd(this.id, this.cd)
+            this.onCloseModal()
+          }
+        }
+      ]
+    })
+    return await alert.present()
+  }
 }

@@ -1,5 +1,6 @@
 export interface Book {
   title: string,
   author: string,
-  isLent: boolean
+  isLent: boolean,
+  lentBy: string
 }

@@ -13,7 +13,10 @@
       [ngClass]="{'lent': cd.isLent}"
       *ngFor="let cd of cds; let i=index"
       (click)="onOpenDetail(i)">
-      <ion-label>{{ cd.title }}</ion-label>
+      <ion-label>
+        <h3>{{ cd.title }}</h3>
+        <p *ngIf="cd.lentBy && cd.lentBy.length > 0">Loué par {{ cd.lentBy }}</p>
+      </ion-label>
       <ion-icon name="square-outline" slot="end" color="danger" *ngIf="cd.isLent"></ion-icon>
       <ion-icon name="checkbox-outline" slot="end" color="secondary" *ngIf="!cd.isLent"></ion-icon>
     </ion-item>
