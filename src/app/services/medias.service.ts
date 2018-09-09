@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Book} from '../interfaces/medias/book';
 import {Cd} from '../interfaces/medias/cd';
 import {Subject} from 'rxjs';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -100,5 +101,29 @@ export class MediasService {
       this.cds[index].lentBy = ''
     }
     this.emitCds()
+  }
+
+  async saveAllToRemote() {
+    try {
+      await firebase.database().ref('medias/books').set(this.books)
+      await firebase.database().ref('medias/cds').set(this.cds)
+    } catch (e) {
+      const error = e as firebase.FirebaseError
+      throw error.message
+    }
+  }
+
+  async getAllFromRemote() {
+    try {
+      const books = await firebase.database().ref('medias/books').once('value')
+      const cds = await firebase.database().ref('medias/cds').once('value')
+      this.books = books.val()
+      this.cds = cds.val()
+      this.emitBooks()
+      this.emitCds()
+    } catch (e) {
+      const error = e as firebase.FirebaseError
+      throw error.message
+    }
   }
 }

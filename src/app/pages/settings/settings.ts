@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import {AlertController} from '@ionic/angular';
+import {ActionSheetController, AlertController, LoadingController, ToastController} from '@ionic/angular';
 import {MediasService} from '../../services/medias.service';
 import {Router} from '@angular/router';
 
@@ -12,7 +12,10 @@ export class SettingsPage {
 
   constructor(private alertCtrl: AlertController,
               private mediaService: MediasService,
-              private router: Router) {}
+              private router: Router,
+              private toastCtrl: ToastController,
+              private loadCtrl: LoadingController,
+              private actionSheetCtrl: ActionSheetController) {}
 
   async onToggleReset() {
     const alert = await this.alertCtrl.create({
@@ -35,5 +38,81 @@ export class SettingsPage {
   resetAll() {
     this.mediaService.lentOffAll()
     this.router.navigate(['/'])
+  }
+
+  async onOpenRemoteAction() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Sauvegarde serveur',
+      buttons: [
+        {
+          text: 'Sauvegarder',
+          icon: 'save',
+          handler: () => {
+            this.onSaveAllToRemote()
+          }
+        },
+        {
+          text: 'Récuperer les données',
+          icon: 'cloud-download',
+          handler: () => {
+            this.onGetAllFromRemote()
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel'
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  async onSaveAllToRemote() {
+    const loader = await this.loadCtrl.create({
+      message: 'Sauvegarde des données en cours...'
+    })
+    await loader.present()
+
+    try {
+      await this.mediaService.saveAllToRemote()
+      loader.dismiss()
+      const toast = await this.toastCtrl.create({
+        message: 'Sauvegarde réussie',
+        duration: 3000
+      })
+      return await toast.present()
+    } catch (error) {
+      loader.dismiss()
+      const toast = await this.toastCtrl.create({
+        message: error,
+        duration: 3000
+      })
+      return await toast.present()
+    }
+  }
+
+  async onGetAllFromRemote() {
+    const loader = await this.loadCtrl.create({
+      message: 'Récupération des données en cours...'
+    })
+    await loader.present()
+
+    try {
+      await this.mediaService.getAllFromRemote()
+      loader.dismiss()
+      const toast = await this.toastCtrl.create({
+        message: 'Récupération réussie',
+        duration: 3000
+      })
+      return await toast.present()
+    } catch (error) {
+      loader.dismiss()
+      const toast = await this.toastCtrl.create({
+        message: error,
+        duration: 3000
+      })
+      return await toast.present()
+    }
   }
 }

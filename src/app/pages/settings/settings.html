@@ -8,9 +8,13 @@
 </ion-header>
 
 <ion-content padding class="beautify">
-  <ion-button (click)="onToggleReset()" expand="full">
-    <ion-icon name="power"></ion-icon>
+  <ion-button (click)="onToggleReset()" expand="block">
+    <ion-icon name="power" slot="start"></ion-icon>
     Reset
+  </ion-button>
+  <ion-button (click)="onOpenRemoteAction()" expand="block">
+    <ion-icon name="cloud" slot="start"></ion-icon>
+    Sauvegarde Serveur
   </ion-button>
 </ion-content>
 
