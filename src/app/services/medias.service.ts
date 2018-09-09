@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Book} from '../interfaces/medias/book';
 import {Cd} from '../interfaces/medias/cd';
 import {Subject} from 'rxjs';
+import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase';
 
 @Injectable({
@@ -9,62 +10,24 @@ import * as firebase from 'firebase';
 })
 export class MediasService {
 
-  private books: Book[] = [
-    {
-      title: 'moby dick',
-      author: 'herman melville',
-      isLent: true,
-      lentBy: 'Mickael For'
-    },
-    {
-      title: 'Fahrenheit 451',
-      author: 'Ray Bradbury',
-      isLent: false,
-      lentBy: ''
-    },
-    {
-      title: 'Le Meilleur des mondes',
-      author: 'Aldous Huxley',
-      isLent: true,
-      lentBy: 'Pit Norris'
-    }
-  ]
-
-
-  private cds: Cd[] = [
-    {
-      title: 'Shine on you crazy diamond',
-      artist: 'pink floyd',
-      isLent: false,
-      lentBy: ''
-    },
-    {
-      title: 'En passant',
-      artist: 'Jean-Jacques Goldman',
-      isLent: true,
-      lentBy: 'Tina Handy'
-    },
-    {
-      title: 'Thunderstuck',
-      artist: 'AC/DC',
-      isLent: false,
-      lentBy: ''
-    }
-  ]
+  private books: Book[] = []
+  private cds: Cd[] = []
 
   public booksSubject: Subject<Book[]>
   public cdsSubject: Subject<Cd[]>
 
-  constructor() {
+  constructor(private storage: Storage) {
     this.booksSubject = new Subject()
     this.cdsSubject = new Subject()
   }
 
   emitBooks() {
+    this.storage.set('books', this.books)
     this.booksSubject.next(this.books.slice())
   }
 
   emitCds() {
+    this.storage.set('cds', this.cds)
     this.cdsSubject.next(this.cds.slice())
   }
 
@@ -81,10 +44,12 @@ export class MediasService {
       book.isLent = false
       book.lentBy = ''
     })
+    this.emitBooks()
     this.cds.forEach((cd) => {
       cd.isLent = false
       cd.lentBy = ''
     })
+    this.emitCds()
   }
 
   saveBook(index: number, book: Book) {
@@ -117,13 +82,27 @@ export class MediasService {
     try {
       const books = await firebase.database().ref('medias/books').once('value')
       const cds = await firebase.database().ref('medias/cds').once('value')
-      this.books = books.val()
-      this.cds = cds.val()
+      this.books = books.val() ? books.val() : []
+      this.cds = cds.val() ? cds.val() : []
       this.emitBooks()
       this.emitCds()
     } catch (e) {
       const error = e as firebase.FirebaseError
       throw error.message
     }
+  }
+
+  async getAllFromDevice() {
+    try {
+      const books = await this.storage.get('books')
+      const cds = await this.storage.get('cds')
+      this.books = books && books.length ? books : []
+      this.cds = cds && cds.length ? cds : []
+      this.emitBooks()
+      this.emitCds()
+    } catch (e) {
+      throw e
+    }
+
   }
 }

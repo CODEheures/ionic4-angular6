@@ -42,7 +42,7 @@ export class SettingsPage {
 
   async onOpenRemoteAction() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Sauvegarde serveur',
+      header: 'Synchronisation serveur',
       buttons: [
         {
           text: 'Sauvegarder',

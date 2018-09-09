@@ -22,7 +22,7 @@ export class BooksListPage implements OnInit, OnDestroy {
     this.booksSubscription = this.mediasService.booksSubject.subscribe((books) => {
       this.books = books
     })
-    this.mediasService.emitBooks()
+    this.mediasService.getAllFromDevice()
   }
 
   ngOnDestroy() {
