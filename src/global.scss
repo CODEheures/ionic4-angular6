@@ -45,3 +45,13 @@ app-books-list, app-cd-list {
     }
   }
 }
+
+ion-content.beautify {
+  background-image: url("./assets/images/b.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  ion-card {
+    background: white !important;
+  }
+}

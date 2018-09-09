@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Bibliothèque</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="beautify">
+  <ion-card>
+    <ion-card-content>
+      <p>Vous avez déjà un compte? <a routerLink="/connect">Se connecter</a></p>
+      <form [formGroup]="registerFormGroup" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input formControlName="email"></ion-input>
+        </ion-item>
+        <div [formGroup]="passwordFormGroup">
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input formControlName="password" type="password"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Repeat</ion-label>
+            <ion-input formControlName="repeatPassword" type="password"></ion-input>
+          </ion-item>
+        </div>
+        <ion-button type="submit" expand="full" [disabled]="registerFormGroup.invalid" style="margin-top: 15px">S'enregistrer</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
